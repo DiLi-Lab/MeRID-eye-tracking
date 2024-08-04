@@ -1,4 +1,4 @@
-LANGUAGE = "en"
+LANGUAGE = "zh"
 COUNTRY_CODE = "ch"
 CITY = "Zurich"
 YEAR = 2025

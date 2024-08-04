@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
-import pylink
+# import pylink
 from PIL import Image
 from pygaze.eyetracker import EyeTracker
 

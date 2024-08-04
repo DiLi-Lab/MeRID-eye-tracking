@@ -33,7 +33,7 @@ class MultiplEYEParticipantQuestionnaire:
     def run_questionnaire(self):
         self._show_questions(
             self.instructions['pq_initial_message'],
-            ['gender', 'years_education', 'age', 'socio_economic_status'],
+            ['gender', 'years_education', 'level_education', 'age', 'socio_economic_status'],
             button=self.instructions['pq_next_button'],
         )
 
@@ -44,14 +44,16 @@ class MultiplEYEParticipantQuestionnaire:
         )
 
         # check whether there are multiple languages that the person grew up with
-        if self.pq_data['childhood_languages'] == 'one language':
+        # if self.pq_data['childhood_languages'] == 'one language':
+        if self.pq_data['childhood_languages'] == '一种语言':
             self._show_questions(
                 '',
                 ['native_language_1'],
                 button=self.instructions['pq_next_button'],
             )
 
-        elif self.pq_data['childhood_languages'] == 'two languages':
+        # elif self.pq_data['childhood_languages'] == 'two languages':
+        elif self.pq_data['childhood_languages'] == '两种语言':
             self._show_questions(
                 '',
                 ['native_language_1', 'native_language'],
@@ -59,7 +61,8 @@ class MultiplEYEParticipantQuestionnaire:
                 keys=['native_language_1', 'native_language_2']
             )
 
-        elif self.pq_data['childhood_languages'] == 'three languages':
+        # elif self.pq_data['childhood_languages'] == 'three languages':
+        elif self.pq_data['childhood_languages'] == '三种语言':
             self._show_questions(
                 '',
                 ['native_language_1', 'native_language', 'native_language'],
@@ -147,12 +150,14 @@ class MultiplEYEParticipantQuestionnaire:
 
         self._show_questions(
             '',
-            ['additional_read_language'],
+            questions=['additional_read_language'],
             button=self.instructions['pq_next_button'],
+            existing_data=self.pq_data,
             option_labels=[(k, v) for (k, v) in options],
             option_type='dropdown_file',
             optional=True
         )
+
 
         reading_languages_mentioned = ['additional_read_language_1', 'additional_read_language_2',
                                        'additional_read_language_3', 'additional_read_language_4']
@@ -277,13 +282,12 @@ class MultiplEYEParticipantQuestionnaire:
         else:
             pq_data = existing_data
 
-
          # first 4 questions on one page
         for question_id, question_key in questions:
             # Adding the current language in the additional_read_language question
             if question_id == "additional_read_language":
                 self.questions["additional_read_language"][
-                    "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]}{constants.LANGUAGE}?'
+                    "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]} {pq_data["native_language_1"]}'
 
             answer_type = self.questions[question_id]["pq_answer_type"]
 
@@ -310,7 +314,7 @@ class MultiplEYEParticipantQuestionnaire:
 
                 else:
                     options = []
-                    for i in range(1, 9):
+                    for i in range(1, 10):
                         option = self.questions[question_id][f'pq_answer_option_{i}'].strip()
                         if option:
                             options.append(option)
