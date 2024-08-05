@@ -98,10 +98,8 @@ def get_stimuli_screens(
     # in the second session, the second half. 1st and 2nd are the two practice trials
     if session_id == 1:
         stimulus_order = [stimulus_order[0]] + stimulus_order[2:7]
-        print("stimulus_order session 1: ", stimulus_order)
     elif session_id == 2:
         stimulus_order = [stimulus_order[1]] + stimulus_order[7:]
-        print("stimulus_order session 2: ", stimulus_order)
 
     for trial_id, item_id in enumerate(stimulus_order):
 
