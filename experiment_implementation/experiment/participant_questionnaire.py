@@ -44,16 +44,14 @@ class MultiplEYEParticipantQuestionnaire:
         )
 
         # check whether there are multiple languages that the person grew up with
-        # if self.pq_data['childhood_languages'] == 'one language':
-        if self.pq_data['childhood_languages'] == '一种语言':
+        if self.pq_data['childhood_languages'] == 'one language':
             self._show_questions(
                 '',
                 ['native_language_1'],
                 button=self.instructions['pq_next_button'],
             )
 
-        # elif self.pq_data['childhood_languages'] == 'two languages':
-        elif self.pq_data['childhood_languages'] == '两种语言':
+        elif self.pq_data['childhood_languages'] == 'two languages':
             self._show_questions(
                 '',
                 ['native_language_1', 'native_language'],
@@ -61,8 +59,7 @@ class MultiplEYEParticipantQuestionnaire:
                 keys=['native_language_1', 'native_language_2']
             )
 
-        # elif self.pq_data['childhood_languages'] == 'three languages':
-        elif self.pq_data['childhood_languages'] == '三种语言':
+        elif self.pq_data['childhood_languages'] == 'three languages':
             self._show_questions(
                 '',
                 ['native_language_1', 'native_language', 'native_language'],
@@ -287,8 +284,8 @@ class MultiplEYEParticipantQuestionnaire:
             # Adding the current language in the additional_read_language question
             if question_id == "additional_read_language":
                 self.questions["additional_read_language"][
-                    # "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]} {pq_data["native_language_1"]}'
-                    "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]}'
+                    "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]} {pq_data["native_language_1"]}'
+                    # "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]}'
             answer_type = self.questions[question_id]["pq_answer_type"]
 
             # if we have an answer to that question, we add it as a fixed field,
