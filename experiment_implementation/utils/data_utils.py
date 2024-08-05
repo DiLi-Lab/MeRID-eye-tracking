@@ -71,15 +71,6 @@ def get_stimuli_screens(
     # in test mode there can be stimuli missing that will be there in the final experiment
     if session_mode.value == 'test' or session_mode.value == 'minimal':
         stimulus_order = stimulus_df['stimulus_id'].tolist()
-        # stimulus_order = stimulus_randomization_df[stimulus_randomization_df.version_number == order_version]
-        print("stimulus_order original: ", stimulus_order)
-        # try:
-        #     stimulus_order = stimulus_order[
-        #         [c for c in stimulus_order.columns if c.startswith('trial') or c.startswith('practice_trial')]].values[
-        #         0].tolist()
-        # except IndexError:
-        #     raise ValueError(f'No stimulus order found for version {order_version}!')
-
     else:
         stimulus_order = stimulus_randomization_df[stimulus_randomization_df.version_number == order_version]
         try:

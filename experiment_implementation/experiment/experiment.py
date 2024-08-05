@@ -85,7 +85,7 @@ class Experiment:
         )
 
         edf_file_path = (f'{participant_id}{self.language.lower()}'
-                         f'{self.country_code.lower()}{constants.LAB_NUMBER}.edf')
+                         f'{constants.LAB_NUMBER}s{session_id}.edf')
 
         absolute_edf_file_path = f'{abs_exp_path}/{edf_file_path}'
         self.relative_edf_file_path = f'{rel_exp_path}/{edf_file_path}'

@@ -76,6 +76,12 @@ The naming scheme of the log files in the `log_files` folder is a follows:
 All logfiles are csv files. Note that the timestamps are relative to the start of the experiment. The experiment starts
 at timestamp 0. Those log files are mainly used for debugging purposes.
 
+The naming scheme of the edf files storing the eye-tracking data is as follows:
+````[participant_id][language_code][lab_number]s[session_id]````.
+It is different from the naming scheme of the MultiplEYE project, where the country codes are used instead of the 
+session_id because there are only one session per participant in MultiplEYE project, but in MeRID, there are multiple 
+sessions per participant.
+
 
 ## Run the experiment with an eye-tracker
 In order to run the experiment with an actual eye-tracker you can tick the respective box in the GUI in the lab settings 

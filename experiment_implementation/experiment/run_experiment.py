@@ -159,13 +159,13 @@ def run_experiment(
         general_log_file.write([get_time(), 'show informed consent screen'])
         experiment.show_informed_consent()
 
-    # general_log_file.write([get_time(), 'start initial calibration'])
-    # experiment.calibrate()
-    # general_log_file.write([get_time(), 'finished initial calibration'])
-    #
-    # general_log_file.write([get_time(), 'start experiment'])
-    # experiment.run_experiment()
-    # general_log_file.write([get_time(), 'finished experiment'])
+    general_log_file.write([get_time(), 'start initial calibration'])
+    experiment.calibrate()
+    general_log_file.write([get_time(), 'finished initial calibration'])
+
+    general_log_file.write([get_time(), 'start experiment'])
+    experiment.run_experiment()
+    general_log_file.write([get_time(), 'finished experiment'])
 
     # only run PQ in first session
     if session_id == 1:
