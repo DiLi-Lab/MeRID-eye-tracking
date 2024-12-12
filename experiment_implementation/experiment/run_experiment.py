@@ -115,6 +115,7 @@ def run_experiment(
     general_log_file.write([get_time(), f'*** SESSION_ID_{session_id}'])
     general_log_file.write([get_time(), f'*** PARTICIPANT_ID_{participant_id_str}'])
     general_log_file.write([get_time(), f'*** DATASET_TYPE_{dataset_type}'])
+    general_log_file.write([get_time(), f'*** STIMULUS_ORDER_VERSION_{stimulus_order_version}'])
 
     general_log_file.write([get_time(), 'START'])
 
@@ -159,9 +160,9 @@ def run_experiment(
         general_log_file.write([get_time(), 'show informed consent screen'])
         experiment.show_informed_consent()
 
-    general_log_file.write([get_time(), 'start initial calibration'])
-    experiment.calibrate()
-    general_log_file.write([get_time(), 'finished initial calibration'])
+    # general_log_file.write([get_time(), 'start initial calibration'])
+    # experiment.calibrate()
+    # general_log_file.write([get_time(), 'finished initial calibration'])
 
     general_log_file.write([get_time(), 'start experiment'])
     experiment.run_experiment()

@@ -36,7 +36,7 @@
   "year": "Year",
     "year_help": "The preliminary end year of the data collection. This is the same as you have entered in the pre-registration form.",
   "session_id": "Session ID",
-    "session_id_help": "Enter the session ID (1-9). Note that the eye-tracking sessions and psychometric tests sessions use a separate session ID.",
+    "session_id_help": "Enter the session ID (1-9).",
   "browse": "Browse",
   "cancel": "Cancel",
   "checkbox_label": "Enable",

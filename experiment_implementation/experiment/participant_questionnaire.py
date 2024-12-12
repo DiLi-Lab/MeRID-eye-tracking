@@ -145,14 +145,13 @@ class MultiplEYEParticipantQuestionnaire:
 
         self._show_questions(
             '',
-            questions=['additional_read_language'],
+            ['additional_read_language'],
             button=self.instructions['pq_next_button'],
             existing_data=self.pq_data,
             option_labels=[(k, v) for (k, v) in options],
             option_type='dropdown_file',
             optional=True
         )
-
 
         reading_languages_mentioned = ['additional_read_language_1', 'additional_read_language_2',
                                        'additional_read_language_3', 'additional_read_language_4']
@@ -245,7 +244,7 @@ class MultiplEYEParticipantQuestionnaire:
         pq_gui = gui.Dlg(
             title=self.instructions['pq_title'],
             # Positioning the dialog boxes in the top left corner of the screen
-            pos=(constants.IMAGE_WIDTH_PX // 2, constants.IMAGE_HEIGHT_PX // 2),
+            pos=(constants.IMAGE_WIDTH_PX // 12, constants.IMAGE_HEIGHT_PX // 10),
             size=(800, 900),
         )
 
@@ -282,8 +281,8 @@ class MultiplEYEParticipantQuestionnaire:
             # Adding the current language in the additional_read_language question
             if question_id == "additional_read_language":
                 self.questions["additional_read_language"][
-                    # "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]} {pq_data["native_language_1"]}?'
                     "pq_question_text"] = f'{self.questions["additional_read_language"]["pq_question_text"]}'
+
             answer_type = self.questions[question_id]["pq_answer_type"]
 
             # collect all the options for the questions if there are any

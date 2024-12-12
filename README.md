@@ -2,6 +2,12 @@
 
 This repository contains the code for the [MeRID](https://www.cl.uzh.ch/en/research-groups/digital-linguistics/research/MeRID.html) eye-tracking-while-reading experiment for multiple languages.
 
+> :bangbang::bangbang::bangbang::bangbang:
+> **Important**: Please make sure to have the most recent version of the enviornment and the dependencies installed.
+> If you have created the env before November 21, 2024, please make sure to update the environment. It is best to just 
+> create a new clean env and install all the dependencies again. You do not have to reinstall anaconda or so.
+
+
 ## Contents
 - [Installation](#installation)
 - [Run the experiment without an eye-tracker](#run-the-dummy-experiment)
@@ -101,3 +107,16 @@ Note that using pip to install pylink installs a different package although the 
 these step-by-step instructions
 of how to install `pylink` can be found here: [INSTALL_PYLINK.md](guidelines/markdown/INSTALL_PYLINK.md)
 
+> Note on pylink experiments: The pixel coordinates written to the edf and consequently asc file will be -1 on both axes due to the EyeLink setting described here: [SR Research Forum Thread](https://www.sr-research.com/support/thread-9129-post-35624.html#pid35624) and is implemented here: [PyGaze](https://github.com/theDebbister/PyGaze/blob/b5771a98d910ce5b29151fc9303c4852d6a62034/pygaze/_eyetracker/libeyelink.py#L217-L219). pymovements will take care of this during preprocessing. 
+
+### Develop and run experiments for other eye-trackers
+Depending on what is needed we can add more eye-trackers. There is also a team that is trying to set up experiment 
+using a webcam. Please contact [multipleye@cl.uzh.ch](mailto:multipleye@cl.uzh.ch) for more information.
+
+## Upload the data
+After you have run a MultiplEYE session, no matter if pilot or real experiment, please make sure to:
+1. Always save the entire `data` folder in a safe location locally as you do for other data collections.
+2. Upload the `data` to the MultiplEYE server. When you preregistered, you should have 
+received a folder where to upload the data.
+3. Whenever you collect data from a new participant, please upload the entire `data` folder to the server, 
+replacing the old one.
