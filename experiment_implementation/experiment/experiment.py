@@ -877,10 +877,18 @@ class Experiment:
 
             # check whether host keyboard was pressed by experimenter
             key, modifier, _, _, timestamp = self._eye_tracker.get_tracker().readKeyButton()
+            self._eye_tracker.log(f'Key pressed: {key}, Modifier: {modifier}, Timestamp: {timestamp}')
+            print(f'Key pressed: {key}, Modifier: {modifier}, Timestamp: {timestamp}')
+
+            key_map = {
+                "ctrl+c": (99, 4),  # ctrl + c
+                "q": (113, 0),  # q
+                "esc": (27, 0)  # esc
+            }
 
             # keys are returned as ascii codes
             # ctrl + c: quit the experiment
-            if key == 99 and modifier == 4:
+            if (key, modifier) == key_map["ctrl+c"] or (key == 99 and modifier & 4):
                 self._eye_tracker.log(f'fixation_trigger:ctrl-c_pressed_by_user_at_{timestamp}')
                 self._eye_tracker.stop_recording()
                 self.write_to_logfile(
@@ -890,7 +898,7 @@ class Experiment:
                 self.finish_experiment()
 
             # key q: skip fixation trigger and continue with experiment
-            elif key == 113 and not modifier:
+            elif (key, modifier) == key_map["q"] or (key == 113):
                 self._eye_tracker.stop_recording()
                 self._eye_tracker.log('fixation_trigger:skipped_by_experimenter')
                 self.write_to_logfile(
@@ -901,7 +909,7 @@ class Experiment:
                 return False
 
             # if esc was pressed we can go to the calibration screen
-            elif key == 27:
+            elif (key, modifier) == key_map["esc"] or (key == 27):
                 self._eye_tracker.stop_recording()
                 self._eye_tracker.log('fixation_trigger:experimenter_calibration_triggered')
                 self.write_to_logfile(
@@ -912,6 +920,10 @@ class Experiment:
                 return True
 
             ts_fixation_end, data = self._eye_tracker.wait_for_fixation_end(timeout=300)
+
+            if key and key not in key_map.values():
+                # self._eye_tracker.log(f'Unhandled key detected: {key}, Modifier: {modifier}')
+                print(f'Unhandled key detected: {key}, Modifier: {modifier}')
 
             if data is not None:
                 average_position = data.getAverageGaze()
