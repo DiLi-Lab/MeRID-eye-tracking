@@ -1,6 +1,6 @@
-LANGUAGE = "zh"
-COUNTRY_CODE = "ch"
-CITY = "Zurich"
+LANGUAGE = "hr"
+COUNTRY_CODE = "hr"
+CITY = "Zagreb"
 YEAR = 2025
 LAB_NUMBER = 1
-DUMMY_MODE = True
+DUMMY_MODE = False

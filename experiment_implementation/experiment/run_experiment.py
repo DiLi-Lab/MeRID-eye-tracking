@@ -30,10 +30,6 @@ def run_experiment(
 
 ) -> None:
 
-    # mark current stimulus order version as used
-    if not continue_core_session and not session_id == 2:
-        experiment_utils.mark_stimulus_order_version_used(stimulus_order_version, participant_id, session_mode)
-
     participant_id_str = str(participant_id)
 
     # participant id should always be 3 digits long
@@ -42,6 +38,11 @@ def run_experiment(
 
     participant_result_folder = (f'{participant_id_str}_{constants.LANGUAGE}_{constants.COUNTRY_CODE}_'
                                  f'{constants.LAB_NUMBER}_ET{session_id}').upper()
+
+    # mark current stimulus order version as used
+    if not continue_core_session and not session_id == 2:
+        experiment_utils.mark_stimulus_order_version_used(stimulus_order_version, participant_id, session_mode,
+                                                          dataset_type, participant_result_folder)
 
     last_completed_stimulus_id = None
 
@@ -65,7 +66,6 @@ def run_experiment(
                 relative_exp_result_path
                 )
             # if the result is a tuple we can unpack it otherwise there is no point in restarting the session
-            print(result)
             if result is not None:
                 completed_stimuli_df, csv_path, last_completed_stimulus_id, last_trial_id = result
 
@@ -92,7 +92,8 @@ def run_experiment(
                 absolute_exp_result_path = os.path.abspath(relative_exp_result_path)
 
         else:
-            os.mkdir(relative_exp_result_path)
+            if not os.path.exists(relative_exp_result_path):
+                os.mkdir(relative_exp_result_path)
             absolute_exp_result_path = os.path.abspath(relative_exp_result_path)
 
     # create logfiles folder

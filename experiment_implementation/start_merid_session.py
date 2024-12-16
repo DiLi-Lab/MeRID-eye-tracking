@@ -335,7 +335,8 @@ def start_experiment_session():
         if stimulus_order_version == -1:
 
             # if it is the second core or pilot session we retrieve the stimulus order for this participant
-            if arguments['session_id'] == 2 and arguments['session_mode'].value in ['core', 'pilot']:
+            if ((arguments['session_id'] == 2 and arguments['session_mode'].value in ['core', 'pilot'])
+                    or (arguments['participant_id'] in PARTICIPANT_IDS)):
                 stimulus_order_version = experiment_utils.determine_stimulus_order_version(
                     participant_id=arguments['participant_id']
                 )
