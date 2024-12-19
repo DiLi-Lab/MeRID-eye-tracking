@@ -877,53 +877,44 @@ class Experiment:
 
             # check whether host keyboard was pressed by experimenter
             key, modifier, _, _, timestamp = self._eye_tracker.get_tracker().readKeyButton()
-            self._eye_tracker.log(f'Key pressed: {key}, Modifier: {modifier}, Timestamp: {timestamp}')
-            print(f'Key pressed: {key}, Modifier: {modifier}, Timestamp: {timestamp}')
-
-            key_map = {
-                "ctrl+c": (99, 4),  # ctrl + c
-                "q": (113, 0),  # q
-                "esc": (27, 0)  # esc
-            }
 
             # keys are returned as ascii codes
             # ctrl + c: quit the experiment
-            if (key, modifier) == key_map["ctrl+c"] or (key == 99 and modifier & 4):
+            if key in [99, 36] and modifier == 4:
                 self._eye_tracker.log(f'fixation_trigger:ctrl-c_pressed_by_user_at_{timestamp}')
                 self._eye_tracker.stop_recording()
                 self.write_to_logfile(
                     get_time(), trial_id, pd.NA, 'fixation_trigger', screen_onset, timestamp,
                     'ctrl c', False, pd.NA, 'ctrl-c_pressed_by_user'
                 )
+                print(f'Key pressed: {key}, Modifier: {modifier}, control c finish experiment!!!!!!!')
                 self.finish_experiment()
 
             # key q: skip fixation trigger and continue with experiment
-            elif (key, modifier) == key_map["q"] or (key == 113):
+            elif key in [113, 81] and modifier in [0, 8]:
                 self._eye_tracker.stop_recording()
                 self._eye_tracker.log('fixation_trigger:skipped_by_experimenter')
                 self.write_to_logfile(
                     get_time(), trial_id, pd.NA, 'fixation_trigger', screen_onset, timestamp,
                     'q', False, pd.NA, 'skipped_by_experimenter'
                 )
+                print(f'Key pressed: {key}, Modifier: {modifier}, q quit tigger!!!!!!!!')
                 self.skipped_fixation_triggers[str(trial_id)] += 1
                 return False
 
             # if esc was pressed we can go to the calibration screen
-            elif (key, modifier) == key_map["esc"] or (key == 27):
+            elif key == 27 or (key == 27 and modifier == 8):
                 self._eye_tracker.stop_recording()
                 self._eye_tracker.log('fixation_trigger:experimenter_calibration_triggered')
                 self.write_to_logfile(
                     get_time(), trial_id, pd.NA, 'fixation_trigger', screen_onset, timestamp,
                     'esc', False, pd.NA, 'calibration_triggered'
                 )
+                print(f'Key pressed: {key}, Modifier: {modifier}, esc force cali!!!!!!!!')
                 self._eye_tracker.calibrate()
                 return True
 
             ts_fixation_end, data = self._eye_tracker.wait_for_fixation_end(timeout=300)
-
-            if key and key not in key_map.values():
-                # self._eye_tracker.log(f'Unhandled key detected: {key}, Modifier: {modifier}')
-                print(f'Unhandled key detected: {key}, Modifier: {modifier}')
 
             if data is not None:
                 average_position = data.getAverageGaze()

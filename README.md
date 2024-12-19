@@ -4,7 +4,7 @@ This repository contains the code for the [MeRID](https://www.cl.uzh.ch/en/resea
 
 > :bangbang::bangbang::bangbang::bangbang:
 > **Important**: Please make sure to have the most recent version of the enviornment and the dependencies installed.
-> If you have created the env before November 21, 2024, please make sure to update the environment. It is best to just 
+> If you have created the env before December 19, 2024, please make sure to update the environment. It is best to just 
 > create a new clean env and install all the dependencies again. You do not have to reinstall anaconda or so.
 
 
@@ -52,7 +52,7 @@ If you'd like to run it, make sure you have completed the above steps, and you h
 Activate the environment:
 
 ```bash
-conda activate merid3.9
+conda activate merid3.10
 ```
 
 Then you can navigate to the root folder of your local clone of the repository (your path should now end with 
