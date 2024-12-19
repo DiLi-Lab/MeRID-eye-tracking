@@ -114,5 +114,5 @@ In order to run the experiment including the GUI on Mac you need to do the follo
 -> `Security & Privacy` -> `Privacy` -> `Input Monitoring`. Then you click on the '+' and add PsychoPy. 
 Pick the PsychoPy version that is in your env. For me the path for a anaconda env called 'test' looks like this:
 ```bash
-/Users/[USERNAME]/opt/anaconda3/envs/merid3.9/bin/psychopy
+/Users/[USERNAME]/opt/anaconda3/envs/merid3.10/bin/psychopy
 ```
