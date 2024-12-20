@@ -885,20 +885,18 @@ class Experiment:
                 self._eye_tracker.stop_recording()
                 self.write_to_logfile(
                     get_time(), trial_id, pd.NA, 'fixation_trigger', screen_onset, timestamp,
-                    'ctrl c', False, pd.NA, 'ctrl-c_pressed_by_user'
+                    'ctrl c', False, pd.NA, f'ctrl-c_pressed_by_user_with_key_{key}_modifier_{modifier}'
                 )
-                print(f'Key pressed: {key}, Modifier: {modifier}, control c finish experiment!!!!!!!')
                 self.finish_experiment()
 
             # key q: skip fixation trigger and continue with experiment
-            elif key in [113, 81] and modifier in [0, 8]:
+            elif key in [113, 81] or (key in [113, 81] and modifier == 8):
                 self._eye_tracker.stop_recording()
                 self._eye_tracker.log('fixation_trigger:skipped_by_experimenter')
                 self.write_to_logfile(
                     get_time(), trial_id, pd.NA, 'fixation_trigger', screen_onset, timestamp,
-                    'q', False, pd.NA, 'skipped_by_experimenter'
+                    'q', False, pd.NA, f'skipped_by_experimenter_with_key_{key}_modifier_{modifier}'
                 )
-                print(f'Key pressed: {key}, Modifier: {modifier}, q quit tigger!!!!!!!!')
                 self.skipped_fixation_triggers[str(trial_id)] += 1
                 return False
 
@@ -908,9 +906,8 @@ class Experiment:
                 self._eye_tracker.log('fixation_trigger:experimenter_calibration_triggered')
                 self.write_to_logfile(
                     get_time(), trial_id, pd.NA, 'fixation_trigger', screen_onset, timestamp,
-                    'esc', False, pd.NA, 'calibration_triggered'
+                    'esc', False, pd.NA, f'calibration_triggered_with_key_{key}_modifier_{modifier}'
                 )
-                print(f'Key pressed: {key}, Modifier: {modifier}, esc force cali!!!!!!!!')
                 self._eye_tracker.calibrate()
                 return True
 

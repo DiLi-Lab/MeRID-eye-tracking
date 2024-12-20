@@ -69,7 +69,8 @@ Note: to install ana/miniconda it might ask you to register, but you should be a
    
    The root folder should end with this path: `.../wg1-experiment-implementation/`. Whatever is before that depends on where you stored the experiment on your local machine.
 
-   Next, we can create the environment. This line creates a conda environment with the name `merid3.10` and installs the correct python version. 
+   Next, we can create the environment. This line creates a conda environment with the name `merid3.10` and installs the correct python version. <br>
+   If you are familiar with python and conda, and you want to create the environment with a different name, or you want to use a different python version, e.g. Python 3.9, which is also supported by the experiment, you can change the name of the environment and the python version in the command below.
 
    ```bash
    conda create --name merid3.10 python==3.10 
@@ -112,7 +113,7 @@ In order to run the experiment including the GUI on Mac you need to do the follo
 
 1. You need to allow PsychoPy to access your input. In order to do that go to `System Preferences` 
 -> `Security & Privacy` -> `Privacy` -> `Input Monitoring`. Then you click on the '+' and add PsychoPy. 
-Pick the PsychoPy version that is in your env. For me the path for a anaconda env called 'test' looks like this:
+Pick the PsychoPy version that is in your env. For me the path for a anaconda env called 'merid3.10' looks like this:
 ```bash
 /Users/[USERNAME]/opt/anaconda3/envs/merid3.10/bin/psychopy
 ```
