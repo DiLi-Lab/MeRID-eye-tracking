@@ -1,4 +1,4 @@
-# MultiplEYE WG1: Experiment Implementation
+# MeRID: Experiment Implementation
 
 This repository contains the code for the [MeRID](https://www.cl.uzh.ch/en/research-groups/digital-linguistics/research/MeRID.html) eye-tracking-while-reading experiment for multiple languages.
 
@@ -56,7 +56,7 @@ conda activate merid3.10
 ```
 
 Then you can navigate to the root folder of your local clone of the repository (your path should now end with 
-`wg1-experiment-implementation`. Please find instructions on how to navigate in a terminal in the 
+`MeRID-eye-tracking`. Please find instructions on how to navigate in a terminal in the 
 [CONDA_ENVIRONMENT.md](guidelines/markdown/CONDA_ENVIRONMENT.md) in section 4). Run the following command to run the dummy experiment:
 
 ```bash

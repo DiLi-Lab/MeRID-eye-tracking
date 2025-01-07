@@ -67,7 +67,7 @@ Note: to install ana/miniconda it might ask you to register, but you should be a
    > you can navigate to the root folder by running the following command in your terminal: `cd wg1-experiment-implementation`.
    > If you want to go back to the previous folder, you can run the following command in your terminal: `cd ..`.
    
-   The root folder should end with this path: `.../wg1-experiment-implementation/`. Whatever is before that depends on where you stored the experiment on your local machine.
+   The root folder should end with this path: `.../MeRID-eye-tracking/`. Whatever is before that depends on where you stored the experiment on your local machine.
 
    Next, we can create the environment. This line creates a conda environment with the name `merid3.10` and installs the correct python version. <br>
    If you are familiar with python and conda, and you want to create the environment with a different name, or you want to use a different python version, e.g. Python 3.9, which is also supported by the experiment, you can change the name of the environment and the python version in the command below.

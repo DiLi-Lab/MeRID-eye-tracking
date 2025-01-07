@@ -13,7 +13,7 @@ Install the [EyeLink Developers Kit](https://www.sr-research.com/support/showthr
 an [SR Research account](https://www.sr-research.com/support/thread-48.html).
 
 ### 2. Set up conda environment
-Set up your virtual environment with the python version specified (python 3.9). 
+Set up your virtual environment with the python version specified (python 3.10). 
 See [CONDA_ENVIRONMENT.md](CONDA_ENVIRONMENT.md).
 
 ### 3. EyeLink path
@@ -23,10 +23,10 @@ On Windows machines, the EyeLink developer kit is installed in an SR Research Fo
 developer kit is contained in the EyeLink folder. It includes different versions of pylink for different python versions.
 The correct pylink version can be found under the path below:
 ```
-C:\Program Files (x86)\SR Research\EyeLink\SampleExperiments\Python\[64 OR 32]\3.9\pylink
+C:\Program Files (x86)\SR Research\EyeLink\SampleExperiments\Python\[64 OR 32]\3.10\pylink
 ```
 
-In the path above, pick either the `32` folder or the `64` folder depending on your system. The `3.9` folder in the
+In the path above, pick either the `32` folder or the `64` folder depending on your system. The `3.10` folder in the
 path refers to the python version that we are using.
 
 **Mac**
@@ -34,10 +34,10 @@ path refers to the python version that we are using.
 On Macs, the developer kit is stored in an EyeLink folder under applications. The pylink version is found under the
 following link:
 ```
-/Applications/EyeLink/SampleExperiments/Python/3.9/pylink
+/Applications/EyeLink/SampleExperiments/Python/3.10/pylink
 ```
 
-The `3.9` folder in the path refers to the python version that we are using.
+The `3.10` folder in the path refers to the python version that we are using.
 
 ### 4. Copy pylink folder to environment
 Now you need to paste the pylink folder to your environment. You can run the following command with the link from above
@@ -49,15 +49,15 @@ want to paste pylink into:
 It is possible to use the ``cp`` command in the Windows powershell, in other terminals you might not be able to use it.
 But you can always copy and paste it manually.
 ```
-cp -R "C:\Program Files (x86)\SR Research\EyeLink\SampleExperiments\Python\64\3.9\pylink" C:\Users\[USERNAME]\anaconda3\envs\multipleye3.9\Lib\site-packages
+cp -R "C:\Program Files (x86)\SR Research\EyeLink\SampleExperiments\Python\64\3.10\pylink" C:\Users\[USERNAME]\anaconda3\envs\merid3.10\Lib\site-packages
 ```
 
 **Mac**
 
 ```
-cp -R /Applications/EyeLink/SampleExperiments/Python/3.9/pylink /Users/[USERNAME]/opt/anaconda3/envs/multipleye3.9/lib/python3.9/site-packages
+cp -R /Applications/EyeLink/SampleExperiments/Python/3.10/pylink /Users/[USERNAME]/opt/anaconda3/envs/merid3.10/lib/python3.10/site-packages
 ```
 
 Note, that the path to your environment (for both Mac and Windows) looks different if:
 1. you installed miniconda instead of anaconda. Then you can replace `anaconda3` with `miniconda3` 
-2. you named your virtual environment differently. Then `multipleye3.9` must be replaced with the name of the environment.
+2. you named your virtual environment differently. Then `merid3.10` must be replaced with the name of the environment.
