@@ -670,39 +670,8 @@ class Experiment:
 
     def determine_break(self, half_num_stimuli, obligatory_break_made, practice, stimulus_id, total_page_count,
                         trial_nr):
-        if (((total_page_count >= self.num_pages // 2 and trial_nr >= half_num_stimuli - 2)
-             or trial_nr == half_num_stimuli + 1)
-                and not self.obligatory_break_made and not practice):
-
-            self._eye_tracker.log('obligatory_break')
-            self._eye_tracker.status_msg('OBLIGATORY BREAK')
-            self.obligatory_break_made = True
-
-            self._display.fill(screen=self.instruction_screens['obligatory_break_screen']['screen'])
-            onset_timestamp = self._display.show()
-
-            key_pressed_break = ''
-            keypress_timestamp = -1
-            while key_pressed_break not in ['space']:
-                key_pressed_break, keypress_timestamp = self._keyboard.get_key(
-                    flush=True,
-                )
-
-            break_time_ms = keypress_timestamp - onset_timestamp
-
-            self.write_to_logfile(
-                timestamp=get_time(), trial_number=trial_nr, stimulus_identifier=stimulus_id,
-                page_number=pd.NA, screen_onset_timestamp=onset_timestamp,
-                keypress_timestamp=keypress_timestamp, key_pressed=key_pressed_break,
-                question=False, answer_correct=pd.NA,
-                message=f"obligatory break duration: {break_time_ms}",
-            )
-
-            self._eye_tracker.log('obligatory_break_end')
-            self._eye_tracker.log(f'obligatory_break_duration: {break_time_ms}')
-
         # there won't be a break within the practice stimuli or before the first trial
-        elif not practice and not trial_nr == 1:
+        if not practice and not trial_nr == 1:
             break_start = get_time()
             self._eye_tracker.log('optional_break')
             self._eye_tracker.status_msg('OPTIONAL BREAK')
