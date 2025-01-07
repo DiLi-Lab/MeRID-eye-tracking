@@ -56,15 +56,15 @@ Note: to install ana/miniconda it might ask you to register, but you should be a
    If you received the experiment as a zip folder, you can skip this step and proceed to the next one directly.
    If not, you can clone the repository to your local machine by running the following command in your terminal:
    ```bash
-   git clone https://github.com/MultiplEYE-COST/wg1-experiment-implementation.git
+   git clone https://github.com/DiLi-Lab/MeRID-eye-tracking.git
    ```
 
 **5. Create the conda environment**
 
    Navigate to the root folder of your local copy of the experiment and run the lines below in your terminal one after the other. 
    > Note: you can easily navigate through your directories by using this command `cd [path]`.
-   > For example: if you are in the folder called `MultiplEYE` which contains the folder `wg1-experiment-implementation`, 
-   > you can navigate to the root folder by running the following command in your terminal: `cd wg1-experiment-implementation`.
+   > For example: if you are in the folder called `MeRID` which contains the folder `MeRID-eye-tracking`, 
+   > you can navigate to the root folder by running the following command in your terminal: `cd MeRID-eye-tracking`.
    > If you want to go back to the previous folder, you can run the following command in your terminal: `cd ..`.
    
    The root folder should end with this path: `.../MeRID-eye-tracking/`. Whatever is before that depends on where you stored the experiment on your local machine.
