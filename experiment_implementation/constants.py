@@ -116,11 +116,6 @@ OPTION_5 = IMAGE_CONFIG['option_5']
 
 # participant_questionnaire constants
 PQ_DATA_FOLDER_PATH = EXP_ROOT_PATH / 'data' / f'participant_questionnaire_{LANGUAGE}_{COUNTRY_CODE}_{LAB_NUMBER}'
-
-PQ_PARTICIPANT_INSTRUCTIONS_EXCEL = PQ_DATA_FOLDER_PATH / f'multipleye_questionnaire_instructions_{LANGUAGE}.xlsx'
-PQ_QUESTIONS_EXCEL = PQ_DATA_FOLDER_PATH / f'multipleye_questionnaire_questions_{LANGUAGE}.xlsx'
-PQ_LANGUAGES_EXCEL = PQ_DATA_FOLDER_PATH / f'language_iso639_1_{LANGUAGE}.xlsx'
-
 # excel file version
 PQ_PARTICIPANT_INSTRUCTIONS_XLSX = PQ_DATA_FOLDER_PATH / f'multipleye_questionnaire_instructions_{LANGUAGE}.xlsx'
 PQ_QUESTIONS_XLSX = PQ_DATA_FOLDER_PATH / f'multipleye_questionnaire_questions_{LANGUAGE}.xlsx'
