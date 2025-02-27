@@ -414,7 +414,11 @@ class Experiment:
                     milliseconds = 300
                     libtime.pause(milliseconds)
                 else:
-                    self._fixation_trigger(trial_id=trial_nr)
+                    triggered = self._fixation_trigger(trial_id=trial_nr)
+                    num_triggers = 5
+                    while triggered is None and num_triggers > 0:
+                        triggered = self._fixation_trigger(trial_id=trial_nr)
+                        num_triggers -= 1
                     self._eye_tracker.send_backdrop_image(page_path)
 
                 # start eye-tracking
@@ -805,7 +809,7 @@ class Experiment:
         # self._eye_tracker.stop_recording()
         self._eye_tracker.log(f'stop_recording_{flag}trial_{trial_number}_{name}')
 
-    def _fixation_trigger(self, trial_id: int) -> bool:
+    def _fixation_trigger(self, trial_id: int) -> bool | None:
         """
         Fixation triggered next page
         :return: bool: trigger fired or not
@@ -878,7 +882,7 @@ class Experiment:
                     'esc', False, pd.NA, f'calibration_triggered_with_key_{key}_modifier_{modifier}'
                 )
                 self._eye_tracker.calibrate()
-                return True
+                return None
 
             ts_fixation_end, data = self._eye_tracker.wait_for_fixation_end(timeout=300)
 
