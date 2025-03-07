@@ -10,9 +10,10 @@ import constants
 
 class MultiplEYEParticipantQuestionnaire:
 
-    def __init__(self, participant_identifier: int, results_folder: str):
+    def __init__(self, participant_identifier: int, results_folder: str, session_id: int):
         self.instructions, self.questions = self.load_data()
         self.participant_id = participant_identifier
+        self.session_id = session_id
         self.pq_data = {}
         self.confirmation_data = {}
         self.results_folder = results_folder
@@ -31,161 +32,169 @@ class MultiplEYEParticipantQuestionnaire:
         return pq_instructions_dict, pq_questions
 
     def run_questionnaire(self):
-        self._show_questions(
-            self.instructions['pq_initial_message'],
-            ['gender', 'years_education', 'level_education', 'age', 'socio_economic_status'],
-            button=self.instructions['pq_next_button'],
-        )
+        if self.session_id == 1:
+            self._show_questions(
+                self.instructions['pq_initial_message'],
+                ['gender', 'years_education', 'level_education', 'age', 'socio_economic_status'],
+                button=self.instructions['pq_next_button'],
+            )
 
-        self._show_questions(
-            '',
-            ['childhood_languages'],
-            button=self.instructions['pq_next_button'],
-        )
-
-        # check whether there are multiple languages that the person grew up with
-        if self.pq_data['childhood_languages'] == self.questions['childhood_languages']['pq_answer_option_1']:
             self._show_questions(
                 '',
-                ['native_language_1'],
+                ['childhood_languages'],
                 button=self.instructions['pq_next_button'],
             )
-        elif self.pq_data['childhood_languages'] == self.questions['childhood_languages']['pq_answer_option_2']:
+
+            # check whether there are multiple languages that the person grew up with
+            if self.pq_data['childhood_languages'] == self.questions['childhood_languages']['pq_answer_option_1']:
+                self._show_questions(
+                    '',
+                    ['native_language_1'],
+                    button=self.instructions['pq_next_button'],
+                )
+            elif self.pq_data['childhood_languages'] == self.questions['childhood_languages']['pq_answer_option_2']:
+                self._show_questions(
+                    '',
+                    ['native_language_1', 'native_language'],
+                    button=self.instructions['pq_next_button'],
+                    keys=['native_language_1', 'native_language_2']
+                )
+            elif self.pq_data['childhood_languages'] == self.questions['childhood_languages']['pq_answer_option_3']:
+                self._show_questions(
+                    '',
+                    ['native_language_1', 'native_language', 'native_language'],
+                    button=self.instructions['pq_next_button'],
+                    keys=['native_language_1', 'native_language_2', 'native_language_3']
+                )
+
             self._show_questions(
                 '',
-                ['native_language_1', 'native_language'],
+                ['use_language', 'dominant_language'],
                 button=self.instructions['pq_next_button'],
-                keys=['native_language_1', 'native_language_2']
             )
-        elif self.pq_data['childhood_languages'] == self.questions['childhood_languages']['pq_answer_option_3']:
+
+            languages_mentioned = ['native_language_1', 'native_language_2',
+                                   'native_language_3', 'use_language', 'dominant_language'
+                                   ]
+            # get those languages that have been mentioned in the previous questions and whose keys are in the pq_data
+            languages_mentioned = [language for language in languages_mentioned if
+                                   language in self.pq_data.keys() and self.pq_data[language] != '']
+
+            unique_languages = []
+            unique_language_keys = []
+            for lang_key in languages_mentioned:
+                if self.pq_data[lang_key] not in unique_languages:
+                    unique_language_keys.append(lang_key)
+                    unique_languages.append(self.pq_data[lang_key])
+
+            # only ask for unique languages, no need to ask for the same language twice
+            dialect_keys = []
+            dialect_languages = []
+            for lang in languages_mentioned:
+                if self.pq_data[lang] not in dialect_languages:
+                    dialect_languages.append(self.pq_data[lang])
+                    dialect_keys.append(f'{lang}_dialect')
+
             self._show_questions(
                 '',
-                ['native_language_1', 'native_language', 'native_language'],
+                ['dialect'],
                 button=self.instructions['pq_next_button'],
-                keys=['native_language_1', 'native_language_2', 'native_language_3']
+                option_labels=[(k, v) for (k, v) in zip(dialect_languages, dialect_keys)],
+                option_type='checkbox',
             )
 
-        self._show_questions(
-            '',
-            ['use_language', 'dominant_language'],
-            button=self.instructions['pq_next_button'],
-        )
+            lang_with_dialects = []
+            lang_keys_with_dialects = []
+            # get those languages for which dialects have been mentioned
+            for dialect_k in dialect_keys:
+                if self.pq_data[dialect_k]:
+                    lang_key = '_'.join(dialect_k.split('_')[:-1])
+                    language_name = self.pq_data[lang_key]
 
-        languages_mentioned = ['native_language_1', 'native_language_2',
-                               'native_language_3', 'use_language', 'dominant_language'
-                               ]
-        # get those languages that have been mentioned in the previous questions and whose keys are in the pq_data
-        languages_mentioned = [language for language in languages_mentioned if
-                               language in self.pq_data.keys() and self.pq_data[language] != '']
+                    # if the language is already in the list
+                    if language_name not in lang_with_dialects:
+                        lang_with_dialects.append(self.pq_data[lang_key])
 
-        unique_languages = []
-        unique_language_keys = []
-        for lang_key in languages_mentioned:
-            if self.pq_data[lang_key] not in unique_languages:
-                unique_language_keys.append(lang_key)
-                unique_languages.append(self.pq_data[lang_key])
+                        lang_keys_with_dialects.append(f'{lang_key}_dialect_name')
 
-        # only ask for unique languages, no need to ask for the same language twice
-        dialect_keys = []
-        dialect_languages = []
-        for lang in languages_mentioned:
-            if self.pq_data[lang] not in dialect_languages:
-                dialect_languages.append(self.pq_data[lang])
-                dialect_keys.append(f'{lang}_dialect')
+            # if there are any dialects
+            if len(lang_with_dialects) > 0:
+                self._show_questions(
+                    '',
+                    ['dialect_name'],
+                    button=self.instructions['pq_next_button'],
+                    option_labels=[(k, v) for (k, v) in zip(lang_with_dialects, lang_keys_with_dialects)],
+                    option_type='text'
+                )
 
-        self._show_questions(
-            '',
-            ['dialect'],
-            button=self.instructions['pq_next_button'],
-            option_labels=[(k, v) for (k, v) in zip(dialect_languages, dialect_keys)],
-            option_type='checkbox',
-        )
+            for lang in unique_language_keys:
+                reading_questions = ['read_language', 'academic_reading_time', 'magazine_reading_time',
+                                     'newspaper_reading_time',
+                                     'email_reading_time', 'fiction_reading_time', 'nonfiction_reading_time',
+                                     'internet_reading_time',
+                                     'other_reading_time']
 
-        lang_with_dialects = []
-        lang_keys_with_dialects = []
-        # get those languages for which dialects have been mentioned
-        for dialect_k in dialect_keys:
-            if self.pq_data[dialect_k]:
-                lang_key = '_'.join(dialect_k.split('_')[:-1])
-                language_name = self.pq_data[lang_key]
+                self._show_questions(
+                    f'{self.pq_data[lang].upper()}: {self.instructions["pq_answer_for_lang"].strip()} {self.pq_data[lang].upper()}',
+                    reading_questions,
+                    button=self.instructions['pq_next_button'],
+                    keys=[f'{lang}_{question}' for question in reading_questions[1:]],
+                )
 
-                # if the language is already in the list
-                if language_name not in lang_with_dialects:
-                    lang_with_dialects.append(self.pq_data[lang_key])
+            # we allow for 4 additional languages to be mentioned
+            options = zip([f'{self.instructions["pq_additional_language"]} {i}' for i in range(1, 5)],
+                          [f'additional_read_language_{i}' for i in range(1, 5)])
 
-                    lang_keys_with_dialects.append(f'{lang_key}_dialect_name')
-
-        # if there are any dialects
-        if len(lang_with_dialects) > 0:
             self._show_questions(
                 '',
-                ['dialect_name'],
+                ['additional_read_language'],
                 button=self.instructions['pq_next_button'],
-                option_labels=[(k, v) for (k, v) in zip(lang_with_dialects, lang_keys_with_dialects)],
-                option_type='text'
+                existing_data=self.pq_data,
+                option_labels=[(k, v) for (k, v) in options],
+                option_type='dropdown_file',
+                optional=True
             )
 
-        for lang in unique_language_keys:
-            reading_questions = ['read_language', 'academic_reading_time', 'magazine_reading_time',
-                                 'newspaper_reading_time',
-                                 'email_reading_time', 'fiction_reading_time', 'nonfiction_reading_time',
-                                 'internet_reading_time',
-                                 'other_reading_time']
+            reading_languages_mentioned = ['additional_read_language_1', 'additional_read_language_2',
+                                           'additional_read_language_3', 'additional_read_language_4']
+
+            # get those languages that have been mentioned in the previous questions and whose keys are in the pq_data
+            reading_languages_mentioned = [language for language in reading_languages_mentioned if
+                                           language in self.pq_data.keys() and self.pq_data[language] != '']
+
+            unique_reading_languages = []
+            unique_reading_language_keys = []
+            for lang_key in reading_languages_mentioned:
+                if self.pq_data[lang_key] not in unique_reading_languages:
+                    unique_reading_language_keys.append(lang_key)
+                    unique_reading_languages.append(self.pq_data[lang_key])
+
+            for lang in unique_reading_language_keys:
+                reading_questions = ['read_language', 'academic_reading_time', 'magazine_reading_time',
+                                     'newspaper_reading_time',
+                                     'email_reading_time', 'fiction_reading_time', 'nonfiction_reading_time',
+                                     'internet_reading_time',
+                                     'other_reading_time']
+
+                self._show_questions(
+                    f'{self.instructions["pq_answer_for_lang"]}: {self.pq_data[lang]}',
+                    reading_questions,
+                    button=self.instructions['pq_next_button'],
+                    keys=[f'{lang}_{question}' for question in reading_questions[1:]],
+                )
 
             self._show_questions(
-                f'{self.pq_data[lang].upper()}: {self.instructions["pq_answer_for_lang"].strip()} {self.pq_data[lang].upper()}',
-                reading_questions,
-                button=self.instructions['pq_next_button'],
-                keys=[f'{lang}_{question}' for question in reading_questions[1:]],
+                '',
+                ['tiredness', 'eyewear', 'alcohol_yesterday', 'alcohol_today'],
+                button=self.instructions['pq_submit_button'],
             )
-
-        # we allow for 4 additional languages to be mentioned
-        options = zip([f'{self.instructions["pq_additional_language"]} {i}' for i in range(1, 5)],
-                      [f'additional_read_language_{i}' for i in range(1, 5)])
-
-        self._show_questions(
-            '',
-            ['additional_read_language'],
-            button=self.instructions['pq_next_button'],
-            existing_data=self.pq_data,
-            option_labels=[(k, v) for (k, v) in options],
-            option_type='dropdown_file',
-            optional=True
-        )
-
-        reading_languages_mentioned = ['additional_read_language_1', 'additional_read_language_2',
-                                       'additional_read_language_3', 'additional_read_language_4']
-
-        # get those languages that have been mentioned in the previous questions and whose keys are in the pq_data
-        reading_languages_mentioned = [language for language in reading_languages_mentioned if
-                                       language in self.pq_data.keys() and self.pq_data[language] != '']
-
-        unique_reading_languages = []
-        unique_reading_language_keys = []
-        for lang_key in reading_languages_mentioned:
-            if self.pq_data[lang_key] not in unique_reading_languages:
-                unique_reading_language_keys.append(lang_key)
-                unique_reading_languages.append(self.pq_data[lang_key])
-
-        for lang in unique_reading_language_keys:
-            reading_questions = ['read_language', 'academic_reading_time', 'magazine_reading_time',
-                                 'newspaper_reading_time',
-                                 'email_reading_time', 'fiction_reading_time', 'nonfiction_reading_time',
-                                 'internet_reading_time',
-                                 'other_reading_time']
-
+        else:
             self._show_questions(
-                f'{self.instructions["pq_answer_for_lang"]}: {self.pq_data[lang]}',
-                reading_questions,
-                button=self.instructions['pq_next_button'],
-                keys=[f'{lang}_{question}' for question in reading_questions[1:]],
+                '',
+                ['tiredness', 'eyewear', 'alcohol_yesterday', 'alcohol_today'],
+                button=self.instructions['pq_submit_button'],
             )
 
-        self._show_questions(
-            '',
-            ['tiredness', 'eyewear', 'alcohol_yesterday', 'alcohol_today'],
-            button=self.instructions['pq_submit_button'],
-        )
 
         pprint(self.pq_data)
         self._save_data()

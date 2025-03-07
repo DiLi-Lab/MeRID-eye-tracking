@@ -137,6 +137,7 @@ class Experiment:
         self.abs_exp_path = abs_exp_path
         self.session_mode = session_mode
         self.participant_id = participant_id
+        self.session_id = session_id
         self.stimulus_order_version = stimulus_order_version
 
         self.mouse = psychopy.event.Mouse()
@@ -149,7 +150,7 @@ class Experiment:
             constants.FIXATION_TRIGGER_RADIUS * 2
             )
 
-        self.participant_questionnaire = MultiplEYEParticipantQuestionnaire(self.participant_id, self.abs_exp_path)
+        self.participant_questionnaire = MultiplEYEParticipantQuestionnaire(self.participant_id, self.abs_exp_path, self.session_id)
 
     def _set_initial_tracker_vars(self):
         # turn off automatic calibration, should be manual!

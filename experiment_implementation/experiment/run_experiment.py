@@ -171,11 +171,7 @@ def run_experiment(
     experiment.run_experiment()
     general_log_file.write([get_time(), 'finished experiment'])
 
-    # only run PQ in first session
-    if session_id == 1:
-        experiment.finish_experiment(participant_questionnaire=True)
-    elif session_id == 2:
-        experiment.finish_experiment(participant_questionnaire=False)
+    experiment.finish_experiment(participant_questionnaire=True)
 
     general_log_file.write([get_time(), 'END'])
 
