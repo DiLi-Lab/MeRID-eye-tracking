@@ -65,9 +65,11 @@ def run_experiment(
             determine_stimulus = determine_last_stimulus(
                 relative_exp_result_path
             )
+
             # if it is None, the file was not there or empty, i.e. the experiment did not start really
             if determine_stimulus is None:
                 last_trial_id = 'full_restart'
+
             else:
                 completed_stimuli_df, csv_path, last_completed_stimulus_id, last_trial_id = determine_stimulus
                 if not last_trial_id:
@@ -79,19 +81,15 @@ def run_experiment(
 
             absolute_exp_result_path = os.path.abspath(relative_exp_result_path)
 
-            # add a note in the completed_stimuli.csv file that the session has been continued
-            new_row = {
-                'timestamp_started': pd.NA, 'timestamp_completed': pd.NA, 'trial_id': pd.NA, 'stimulus_id': pd.NA,
-                'stimulus_name': absolute_exp_result_path, 'completed': 'restart',
-            }
+            if determine_stimulus is not None:
+                # add a note in the old completed_stimuli.csv file that the session has been continued
+                new_row = {
+                    'timestamp_started': pd.NA, 'timestamp_completed': pd.NA, 'trial_id': pd.NA, 'stimulus_id': pd.NA,
+                    'stimulus_name': absolute_exp_result_path, 'completed': 'restart',
+                }
 
-            completed_stimuli_df = pd.concat([completed_stimuli_df, pd.DataFrame(new_row, index=[0])])
-            completed_stimuli_df.to_csv(csv_path, index=False)
-
-            # else:
-            #     shutil.rmtree(relative_exp_result_path, ignore_errors=True)
-            #     os.mkdir(relative_exp_result_path)
-            #     absolute_exp_result_path = os.path.abspath(relative_exp_result_path)
+                completed_stimuli_df = pd.concat([completed_stimuli_df, pd.DataFrame(new_row, index=[0])])
+                completed_stimuli_df.to_csv(csv_path, index=False)
 
         else:
             if not os.path.exists(relative_exp_result_path):
