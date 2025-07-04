@@ -1,14 +1,16 @@
+import argparse
 import json
 import os.path
 from pprint import pprint
 
 import pandas as pd
-from PyQt6 import QtGui, QtWidgets
+from PyQt6 import QtGui
 from psychopy import gui
+
 import constants
 
 
-class MultiplEYEParticipantQuestionnaire:
+class MeRIDParticipantQuestionnaire:
 
     def __init__(self, participant_identifier: int, results_folder: str, session_id: int):
         self.instructions, self.questions = self.load_data()
@@ -134,11 +136,14 @@ class MultiplEYEParticipantQuestionnaire:
                                      'internet_reading_time',
                                      'other_reading_time']
 
+                keys = [f'{lang}_{question}' for question in reading_questions[1:]]
+                keys = ['read_language'] + keys
+
                 self._show_questions(
                     f'{self.pq_data[lang].upper()}: {self.instructions["pq_answer_for_lang"].strip()} {self.pq_data[lang].upper()}',
                     reading_questions,
                     button=self.instructions['pq_next_button'],
-                    keys=[f'{lang}_{question}' for question in reading_questions[1:]],
+                    keys=keys,
                 )
 
             # we allow for 4 additional languages to be mentioned
@@ -176,25 +181,22 @@ class MultiplEYEParticipantQuestionnaire:
                                      'internet_reading_time',
                                      'other_reading_time']
 
+                keys = [f'{lang}_{question}' for question in reading_questions[1:]]
+                keys = ['read_language'] + keys
+
                 self._show_questions(
-                    f'{self.instructions["pq_answer_for_lang"]}: {self.pq_data[lang]}',
+                    f'{self.pq_data[lang].upper()}: {self.instructions["pq_answer_for_lang"].strip()}: '
+                    f'{self.pq_data[lang].upper()}',
                     reading_questions,
                     button=self.instructions['pq_next_button'],
-                    keys=[f'{lang}_{question}' for question in reading_questions[1:]],
+                    keys=keys,
                 )
 
-            self._show_questions(
-                '',
-                ['tiredness', 'eyewear', 'alcohol_yesterday', 'alcohol_today'],
-                button=self.instructions['pq_submit_button'],
-            )
-        else:
-            self._show_questions(
-                '',
-                ['tiredness', 'eyewear', 'alcohol_yesterday', 'alcohol_today'],
-                button=self.instructions['pq_submit_button'],
-            )
-
+        self._show_questions(
+            '',
+            ['tiredness', 'eyewear', 'alcohol_yesterday', 'alcohol_today'],
+            button=self.instructions['pq_submit_button'],
+        )
 
         pprint(self.pq_data)
         self._save_data()
@@ -285,7 +287,7 @@ class MultiplEYEParticipantQuestionnaire:
         else:
             pq_data = existing_data
 
-         # first 4 questions on one page
+        # first 4 questions on one page
         for question_id, question_key in questions:
             # Adding the current language in the additional_read_language question
             if question_id == "additional_read_language":
@@ -313,12 +315,11 @@ class MultiplEYEParticipantQuestionnaire:
                     if option:
                         options.append(option)
 
-            # if it is a dropdown (i.e. multiple options), the initial value is an empty string
-            # which is prepended to the options
-            if len(options) > 1:
-                options.insert(0, '')
-
             if len(options) > 0:
+                # if it is a dropdown (i.e. multiple options), the initial value is an empty string
+                # which is prepended to the options
+                if len(options) > 1:
+                    options.insert(0, '')
 
                 question_text = pq_gui.addField(question_key,
                                                 label=self.questions[question_id]["pq_question_text"],
@@ -353,7 +354,7 @@ class MultiplEYEParticipantQuestionnaire:
 
         pq_gui.addText('')
         pq_gui.addText('')
-        pq_gui.addField('confirm_answer', self.instructions['pq_confirm_answers'], initial=False)
+        pq_gui.addField(key='confirm_answer', label=self.instructions['pq_confirm_answers'], initial=False)
 
         # the item in the top left position is some default text that I don't know how to remove otherwise
         pq_gui.layout.itemAtPosition(0, 0).widget().hide()
@@ -404,10 +405,27 @@ class MultiplEYEParticipantQuestionnaire:
 
 
 if __name__ == '__main__':
-    participant_id = 1
+    # add participant id as command line argument
+
+    parser = argparse.ArgumentParser(description='Run the MultiplEYE participant questionnaire.')
+    parser.add_argument(
+        '--participant_id',
+        type=int,
+        default=1,
+        help='The ID of the participant. Default is 1.',
+    )
+
+    args = parser.parse_args()
+    participant_id = args.participant_id
+
+    participant_id_str = str(participant_id)
+
+    # participant id should always be 3 digits long
+    while len(participant_id_str) < 3:
+        participant_id_str = "0" + participant_id_str
 
     # create res folder
-    os.makedirs('res', exist_ok=True)
+    os.makedirs('test_pq', exist_ok=True)
 
-    pq = MultiplEYEParticipantQuestionnaire(participant_id, 'res')
+    pq = MeRIDParticipantQuestionnaire(participant_id, 'test_pq')
     pq.run_questionnaire()
