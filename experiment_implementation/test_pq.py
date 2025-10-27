@@ -19,7 +19,7 @@ def run_pq_only(id: int, session: int) -> None:
     repo_root = constants.EXP_ROOT_PATH
     os.makedirs(f'{repo_root.parent}/test_pq', exist_ok=True)
 
-    pq = MeRIDParticipantQuestionnaire(participant_id, f'{repo_root.parent}/test_pq', session_id=session)
+    pq = MeRIDParticipantQuestionnaire(participant_id, f'{repo_root.parent}/test_pq')
     pq.run_questionnaire()
 
 

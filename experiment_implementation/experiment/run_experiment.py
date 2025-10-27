@@ -169,7 +169,7 @@ def run_experiment(
     experiment.run_experiment()
     general_log_file.write([get_time(), 'finished experiment'])
 
-    experiment.finish_experiment(participant_questionnaire=True)
+    experiment.finish_experiment(participant_questionnaire=True if session_id == 1 else False)
 
     general_log_file.write([get_time(), 'END'])
 
