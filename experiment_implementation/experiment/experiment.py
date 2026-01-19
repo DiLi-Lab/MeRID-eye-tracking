@@ -27,7 +27,7 @@ from devices.screen import MultiplEyeScreen
 
 from start_merid_session import SessionMode
 
-from experiment.participant_questionnaire import MultiplEYEParticipantQuestionnaire
+from experiment.participant_questionnaire import MeRIDParticipantQuestionnaire
 
 
 class Experiment:
@@ -150,7 +150,7 @@ class Experiment:
             constants.FIXATION_TRIGGER_RADIUS * 2
             )
 
-        self.participant_questionnaire = MultiplEYEParticipantQuestionnaire(self.participant_id, self.abs_exp_path, self.session_id)
+        self.participant_questionnaire = MeRIDParticipantQuestionnaire(self.participant_id, self.abs_exp_path, self.session_id)
 
     def _set_initial_tracker_vars(self):
         # turn off automatic calibration, should be manual!
